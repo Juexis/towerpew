@@ -5,21 +5,26 @@ using UnityEngine;
 public class playerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public Transform groundCheck;
+    public LayerMask groundLayer;
     float speed = 4;
-    public float jumpPower;
+    float jumpPower = 75f;
     bool isJumping;
     float horizontalInput;
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        Debug.Log(isGrounded());
+        if (Input.GetButtonDown("Jump") && isGrounded())
         {
             isJumping = true;
         }
+
+        
     }
 
     void FixedUpdate()
@@ -31,11 +36,14 @@ public class playerMovement : MonoBehaviour
 
         if (isJumping)
         {
-            Debug.Log("Jump!");
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-            //rb.AddForce(new Vector2(0, 1 * jumpPower), ForceMode2D.Impulse);
             isJumping = false;
         }
-
     }
+    private bool isGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.17f, groundLayer);
+    }    
+
 }
+
