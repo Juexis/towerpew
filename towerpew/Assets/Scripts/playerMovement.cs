@@ -9,6 +9,7 @@ public class playerMovement : MonoBehaviour
     public LayerMask groundLayer;
     float speed = 4;
     float jumpPower = 75f;
+    float gravity = 1f;
     bool isJumping;
     float horizontalInput;
     void Start()
@@ -36,7 +37,8 @@ public class playerMovement : MonoBehaviour
 
         if (isJumping)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            //rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             isJumping = false;
         }
     }
